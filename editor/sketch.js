@@ -19,75 +19,205 @@ export function drawReceipt(p) {
     p.textAlign(p.CENTER, p.TOP);
     p.textStyle(p.BOLD);
     p.textSize(28);
-    p.text("NIGHT SIGNALS", w / 2, 30);
+    p.text("Nik0la278", w / 2, 30);
 
   dashedLine(p, margin, 94, w - margin, 94, 6, 5);
 
-  // A seeded field of tiny stars and radio noise.
-  for (let i = 0; i < 150; i += 1) {
-    const x = p.random(margin, w - margin);
-    const y = p.random(118, 350);
-    const size = p.random([1, 1, 1, 2, 2, 3]);
-    if (p.random() > 0.82) {
-      p.rect(x - 3, y, 7, 1);
-      p.rect(x, y - 3, 1, 7);
-    } else {
-      p.rect(x, y, size, size);
-    }
-  }
+  // ============================================
+  // YOUR PATTERN, REPEATED 3 TIMES
+  // copy < 3      = how many times it repeats
+  // copy * 250    = how far down each copy moves (bigger = more space between)
+  // - 250         = shifts the first copy up so all 3 fit on the receipt
+  // ============================================
+  for (let copy = 0; copy < 3; copy += 1) {
+    p.push();
+    p.translate(0, copy * 250 - 250);
 
-  // Layered mountain signals. p.noise() and p.random() are both seeded.
-  const ridgeTop = 300;
-  for (let layer = 0; layer < 5; layer += 1) {
-    p.fill(layer % 2 === 0 ? 0 : 255);
-    p.stroke(0);
-    p.strokeWeight(2);
-    p.beginShape();
-    p.vertex(margin, 500 + layer * 48);
-    for (let x = margin; x <= w - margin; x += 5) {
-      const wave = p.noise(x * 0.012, layer * 4.2) * 90;
-      const y = ridgeTop + layer * 50 - wave;
-      p.vertex(x, y);
-    }
-    p.vertex(w - margin, 500 + layer * 48);
-    p.endShape(p.CLOSE);
-  }
-
-  // The transmission: a winding route with little station markers.
-  p.noFill();
   p.stroke(0);
-  p.strokeWeight(5);
-  p.beginShape();
-  const route = [];
-  for (let y = 585; y < 915; y += 34) {
-    const x = p.map(p.noise(y * 0.018, 20), 0, 1, 68, w - 68);
-    route.push({ x, y });
-    p.vertex(x, y);
-  }
-  p.endShape();
+p.strokeWeight(3);          // thickness
+p.line(50, 400, 300, 450);  // start x, start y, end x, end y
 
-  p.strokeWeight(2);
-  p.fill(255);
-  route.forEach(({ x, y }, index) => {
-    if (index % 2 === 0) {
-      p.square(x - 6, y - 6, 12);
-      p.line(index % 4 === 0 ? margin : w - margin, y, x, y);
-    }
-  });
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.line(50, 400, 300, 450);  // start x, start y, end x, end y
 
-  dashedLine(p, margin, 930, w - margin, 930, 6, 5);
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.line(50, 400, 300, 450);  // start x, start y, end x, end y
 
-  const barcodeValue = "receipt.hackclub.com";
-  drawBarcode(p, barcodeValue, w / 2, 960);
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.line(50, 400, 300, 450);  // start x, start y, end x, end y
+
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.line(50, 400, 300, 450);  // start x, start y, end x, end y
+
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.line(50, 400, 300, 450);  // start x, start y, end x, end y
 
   p.noStroke();
-  p.fill(0);
-  p.textFont("monospace");
-  p.textAlign(p.CENTER, p.TOP);
-  p.textStyle(p.NORMAL);
-  p.textSize(10);
-  p.text(barcodeValue, w / 2, 1024);
+p.fill(0);
+for (let i = 0; i < 100; i += 1) {   // 100 = how many dots
+  // y goes from 400 to 500, dot size from 1 to 4
+  p.circle(p.random(margin, w - margin), p.random(400, 500), p.random(1, 4));
 }
+
+p.noStroke();
+p.fill(0);
+for (let i = 0; i < 100; i += 1) {   // 100 = how many dots
+  // y goes from 400 to 500, dot size from 1 to 4
+  p.circle(p.random(margin, w - margin), p.random(400, 500), p.random(1, 4));
+}
+
+p.noStroke();
+p.fill(0);
+for (let i = 0; i < 100; i += 1) {   // 100 = how many dots
+  // y goes from 400 to 500, dot size from 1 to 4
+  p.circle(p.random(margin, w - margin), p.random(400, 500), p.random(1, 4));
+}
+
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.line(50, 400, 300, 450);  // start x, start y, end x, end y
+
+  p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+  p.stroke(0);
+p.strokeWeight(2);
+for (let x = margin; x < w - margin; x += 10) {   // 10 = gap between lines
+  p.line(x, 400, x, 450);                         // top y, bottom y
+}
+
+p.stroke(0);
+p.strokeWeight(2);
+for (let x = margin; x < w - margin; x += 10) {   // 10 = gap between lines
+  p.line(x, 400, x, 450);                         // top y, bottom y
+}
+
+p.stroke(0);
+p.strokeWeight(2);
+for (let x = margin; x < w - margin; x += 10) {   // 10 = gap between lines
+  p.line(x, 400, x, 450);                         // top y, bottom y
+}
+
+p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+p.noFill();
+p.stroke(0);
+p.strokeWeight(3);          // thickness
+p.beginShape();
+for (let x = margin; x <= w - margin; x += 4) {
+  // 400 = height on receipt, 60 = how tall the waves are,
+  // 0.02 = how wiggly (smaller = smoother), 5 = pattern number (try 6, 7...)
+  const y = 400 + p.noise(x * 0.02, 5) * 60;
+  p.vertex(x, y);
+}
+p.endShape();
+
+  p.noStroke();
+p.fill(0);
+for (let i = 0; i < 100; i += 1) {   // 100 = how many dots
+  // y goes from 400 to 500, dot size from 1 to 4
+  p.circle(p.random(margin, w - margin), p.random(400, 500), p.random(1, 4));
+}
+
+p.noStroke();
+p.fill(0);
+for (let i = 0; i < 100; i += 1) {   // 100 = how many dots
+  // y goes from 400 to 500, dot size from 1 to 4
+  p.circle(p.random(margin, w - margin), p.random(400, 500), p.random(1, 4));
+}
+
+    p.pop();
+  }
+  // ============================================
+  // END OF REPEATED PATTERN
+  // ============================================
+
+}
+
 
 function drawBarcode(p, value, centerX, y) {
   const barcodeCanvas = document.createElement("canvas");
